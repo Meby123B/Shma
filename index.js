@@ -1,17 +1,10 @@
+import cities from "./cities.js";
+
 const app = document.querySelector("#app");
 
-const jerusalem = {
-    name: "ירושלים",
-    geo:281184
-}
-const lod = {
-    name: 'לוד',
-    geo: 294421
-}
-const betShemesh = {
-    name:"בית-שמש",
-    geo:294421
-}
+const jerusalem = cities.jerusalem;
+const betShemesh = cities.betShemesh;
+const lod = cities.lod;
 
 function printZmanShma(city, data){
     console.log('data:', data);
@@ -37,7 +30,7 @@ function printZmanShma(city, data){
 
 
 async function getData(city) {
-    const res = await fetch("https://www.hebcal.com/zmanim?cfg=json&geonameid=" + city.geo + "&date=" + new Date().toISOString());
+    const res = await fetch("https://www.hebcal.com/zmanim?cfg=json&geonameid=" + city.geo)// + "&date=" + new Date().toISOString());
     const val = await res.json();
     console.log(val.times.sofZmanShma.split("T")[1].split('+')[0]);
     printZmanShma(city, val);
