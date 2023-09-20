@@ -13,8 +13,8 @@ function printZmanShma(city, data){
     const p = document.createElement('span')
     const btn = document.createElement('button')
 
-    let text = `סוף זמן קריאת שמע <b>ב${city.name}</b> ${time}`
-    let text2copy = `בוקר טוב. סוף זמן קריאת שמע *ב${city.name}* ${time} ויש להקדים מספר דקות`
+    let text = `סוף זמן קריאת שמע ב<b>${city.name}</b> ${time}`
+    let text2copy = `בוקר טוב. סוף זמן קריאת שמע ב*${city.name}* ${time} ויש להקדים מספר דקות`
     p.innerHTML= text;
     
     btn.innerText= 'העתק ללוח'
