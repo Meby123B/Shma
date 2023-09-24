@@ -3,12 +3,16 @@ export default {
         name: "ירושלים",
         geo: 281184
     },
-     lod : {
+    lod: {
         name: 'לוד',
         geo: 294421
     },
-    betShemesh :{
+    betShemesh: {
         name: "בית-שמש",
         geo: 294421
+    },
+    talmon: {
+        name: "חולון",
+        geo: 294751
     }
 } 
