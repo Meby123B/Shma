@@ -38,17 +38,17 @@ const lod = cities.lod;
 
 function printZmanShma(city, data) {
     console.log('data:', data);
-    const time = data.times.sofZmanShma.split("T")[1].split('+')[0]
+    const time = data.times.sofZmanShma.split("T")[1].split(':00')[0]
 
     const p = document.createElement('span')
     const btn = document.createElement('button')
 
-    let text = `סוף זמן קריאת שמע <b>ב${city.name}</b> ${time} וצריך להקדים כמה דקות`
-    let text2copy = `סוף זמן קריאת שמע *ב${city.name}* ${time} וצריך להקדים כמה דקות`
-    p.innerHTML = text;
-
-    btn.innerText = 'העתק ללוח'
-    btn.onclick = () => {
+    let text = `סוף זמן קריאת שמע ב<b>${city.name}</b> ${time}`
+    let text2copy = `בוקר טוב. סוף זמן קריאת שמע ב*${city.name}* ${time} ויש להקדים מספר דקות`
+    p.innerHTML= text;
+    
+    btn.innerText= 'העתק ללוח'
+    btn.onclick=()=>{
         navigator.clipboard.writeText(text2copy)
         btn.innerText = 'הועתק!'
         setTimeout(() => {
