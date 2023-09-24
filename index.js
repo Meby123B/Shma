@@ -8,7 +8,7 @@ btn.onclick = (e) => {
 };
 
 async function getCity(name) {
-    let req = await fetch('http://api.geonames.org/searchJSON?q=' + name + '&maxRows=10&featureCode=PPLA&country=IL&username=mebyberger')
+    let req = await fetch('http://api.geonames.org/searchJSON?q=' + name + '&maxRows=10&featureCode=PPL&country=IL&username=mebyberger')
     let data = await req.json()
 
     console.log('data', data.geonames);
