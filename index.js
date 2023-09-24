@@ -38,7 +38,7 @@ const lod = cities.lod;
 
 function printZmanShma(city, data) {
     console.log('data:', data);
-    const time = data.times.sofZmanShma.split("T")[1].split(':00')[0]
+    const time = data.times.sofZmanShma.split("T")[1].split('+')[0]
 
     const p = document.createElement('span')
     const btn = document.createElement('button')
