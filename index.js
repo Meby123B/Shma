@@ -7,24 +7,31 @@ btn.onclick = (e) => {
     getCity(inp.value)
 };
 
-async function getCity(name) {
-    let req = await fetch('https://secure.geonames.org/searchJSON?q=' + name + '&maxRows=10&featureCode=PPL&country=IL&username=mebyberger')
-    let data = await req.json()
+async function getCity(name, featureCode='PPL') {
+    try {
+        
+        let req = await fetch('https://secure.geonames.org/searchJSON?q=' + name + '&maxRows=10&featureCode='+featureCode+'&country=IL&username=mebyberger')
+        let data = await req.json()
+        
+        console.log('data',featureCode, data.geonames);
+        if (data.geonames.length != 1) {
 
-    console.log('data', data.geonames);
-    // if (data.geonames.length != 1) {
-    //     console.log('true');
-    //     req = await fetch('http://api.geonames.org/searchJSON?q=' + name + '&maxRows=5&featureCode=PPLA&username=mebyberger')
-    //     data = await req.json()
-    // }
-    console.log('data', data.geonames[0].geonameId);
-    const obj = {
-        name,
-        geo: data.geonames[0].geonameId
+            if (featureCode=='STLMT') {return alert('העיר '+name+' לא נמצאה במערכת')}
+            getCity(name, featureCode=='PPL' ? 'PPLA' : 'STLMT')
+            return
+        }
+        console.log('data', data.geonames[0].geonameId);
+        const obj = {
+            name,
+            geo: data.geonames[0].geonameId
+        }
+        getData(obj)
+
+    } catch (error) {
+        console.error(error);
     }
-    getData(obj)
-
-}
+        
+    }
 
 
 
