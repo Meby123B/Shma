@@ -1,20 +1,38 @@
 .hide{
     display: none;
 }
-#app{
+body{
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+.search{
+    display: flex;
+    justify-content: center;
+    margin: 0 2% 2% 2%;
+}
+h3 {
+    margin: 0px;
+}
+#app{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
     /* gap: 10px; */
+    margin: auto 15%;
 }
 .city{
     display: flex;
-    align-items: center;
     gap: 10px;
+    border-bottom: solid 1px grey;
     width: 80%s;
+    align-items: center;
+    justify-content: space-between;
+}
+.city:last-of-type {
+    border: none;
 }
 .city > p {
-    flex-grow: 1;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
