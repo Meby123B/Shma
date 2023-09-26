@@ -28,29 +28,29 @@ function printZmanShma(city, data) {
     const div = document.createElement('div')
     div.className = 'city'
 
-    const span = document.createElement('span')
+    const p = document.createElement('p')
     const copyBtn = document.createElement('button')
     const delBtn = document.createElement('button')
 
-    let text = `סוף זמן קריאת שמע ב<b>${city.name}</b> ${time}`
+    let text = `סוף זמן קריאת שמע <br>ב<b>${city.name}</b> ${time}`
     let text2copy = `בוקר טוב. סוף זמן קריאת שמע ב*${city.name}* ${roundTime(time)} ויש להקדים מספר דקות`
-    span.innerHTML = text;
+    p.innerHTML = text;
 
-    copyBtn.innerText = 'העתק ללוח'
+    copyBtn.innerText = '📋'
     copyBtn.onclick = () => {
         navigator.clipboard.writeText(text2copy)
         copyBtn.innerText = 'הועתק!'
         setTimeout(() => {
-            copyBtn.innerText = 'העתק ללוח'
+            copyBtn.innerText = '📋'
         }, 1500);
     }
 
-    delBtn.innerText = 'מחק'
+    delBtn.innerText = '🗑️'
     delBtn.onclick = () => {
         storage.remove(city)
         reset()
     }
-    div.append(delBtn, span, copyBtn)
+    div.append(delBtn, p, copyBtn)
     app.append(div)
 }
 
@@ -77,5 +77,3 @@ function roundTime(time = '11:22:33') {
 }
 
 cities.forEach(city => getZmanim(city))
-
-console.log("🚀 -> roundTime():", roundTime())
