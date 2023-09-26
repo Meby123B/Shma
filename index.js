@@ -1,91 +1,81 @@
-import cities from "./cities.js";
+import defaultCities from "./cities.js";
+import loading from "./loading.js";
+import setSearch from "./search.js";
+import DataBase from './storage.js'
 
-const btn = document.querySelector('.search > button')
-const inp = document.querySelector('.search > input')
-
-btn.onclick = (e) => {
-    getCity(inp.value)
-};
-
-async function getCity(name, featureCode='PPL') {
-    try {
-        
-        let req = await fetch('https://secure.geonames.org/searchJSON?q=' + name + '&maxRows=10&featureCode='+featureCode+'&country=IL&username=mebyberger')
-        let data = await req.json()
-        
-        console.log('data',featureCode, data.geonames);
-        if (data.geonames.length != 1) {
-
-            if (featureCode=='STLMT') {return alert('העיר '+name+' לא נמצאה במערכת')}
-            getCity(name, featureCode=='PPL' ? 'PPLA' : 'STLMT')
-            return
-        }
-        console.log('data', data.geonames[0].geonameId);
-        const obj = {
-            name,
-            geo: data.geonames[0].geonameId
-        }
-        getData(obj)
-
-    } catch (error) {
-        console.error(error);
-    }
-        
-    }
-
-
-
+setSearch()
 const app = document.querySelector("#app");
 
-const jerusalem = cities.jerusalem;
-const betShemesh = cities.betShemesh;
-const lod = cities.lod;
+const storage = new DataBase('cities')
 
+function getCities() {
+    let cities = storage.getData()
+    if (cities.length == 0) {
+        cities = defaultCities;
+        cities.forEach(city => storage.add(city))
+    }
+    return cities
+}
+let cities = getCities()
 
 
 function printZmanShma(city, data) {
-    console.log('data:', data);
+    loading.hide()
+    console.log('city:', data.location.city);
     const time = data.times.sofZmanShma.split("T")[1].split('+')[0]
     console.log('time', time);
 
-    const p = document.createElement('span')
-    const btn = document.createElement('button')
+    const div = document.createElement('div')
+    div.className = 'city'
+
+    const span = document.createElement('span')
+    const copyBtn = document.createElement('button')
+    const delBtn = document.createElement('button')
 
     let text = `סוף זמן קריאת שמע ב<b>${city.name}</b> ${time}`
     let text2copy = `בוקר טוב. סוף זמן קריאת שמע ב*${city.name}* ${roundTime(time)} ויש להקדים מספר דקות`
-    p.innerHTML= text;
-    
-    btn.innerText= 'העתק ללוח'
-    btn.onclick=()=>{
+    span.innerHTML = text;
+
+    copyBtn.innerText = 'העתק ללוח'
+    copyBtn.onclick = () => {
         navigator.clipboard.writeText(text2copy)
-        btn.innerText = 'הועתק!'
+        copyBtn.innerText = 'הועתק!'
         setTimeout(() => {
-            btn.innerText = 'העתק ללוח'
+            copyBtn.innerText = 'העתק ללוח'
         }, 1500);
     }
-    app.append(p, btn, document.createElement('br'))
+
+    delBtn.innerText = 'מחק'
+    delBtn.onclick = () => {
+        storage.remove(city)
+        reset()
+    }
+    div.append(delBtn, span, copyBtn)
+    app.append(div)
 }
 
+function reset() {
+    app.innerHTML = ''
+    cities = getCities()
+    cities.forEach(city => getZmanim(city))
+}
 
-export async function getData(city) {
+export async function getZmanim(city) {
     const res = await fetch("https://www.hebcal.com/zmanim?cfg=json&sec=1&geonameid=" + city.geo)// + "&date=" + new Date().toISOString());
     const val = await res.json();
 
     printZmanShma(city, val);
 }
 
-function roundTime(time='11:22:33'){
+function roundTime(time = '11:22:33') {
     const split = time.split(':')
-    split.forEach((s,i,arr) => arr[i] = Number(s))
+    split.forEach((s, i, arr) => arr[i] = Number(s))
     split[1] += split[2] > 30 ? 1 : 0;
 
-    const joined = split[0] +':'+ split[1]
+    const joined = split[0] + ':' + split[1]
     return joined
 }
 
-getData(lod)
-getData(jerusalem)
-getData(betShemesh)
-getData(cities.talmon)
+cities.forEach(city => getZmanim(city))
 
 console.log("🚀 -> roundTime():", roundTime())
