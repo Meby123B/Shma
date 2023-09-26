@@ -46,12 +46,13 @@ const lod = cities.lod;
 function printZmanShma(city, data) {
     console.log('data:', data);
     const time = data.times.sofZmanShma.split("T")[1].split('+')[0]
+    console.log('time', time);
 
     const p = document.createElement('span')
     const btn = document.createElement('button')
 
     let text = `סוף זמן קריאת שמע ב<b>${city.name}</b> ${time}`
-    let text2copy = `בוקר טוב. סוף זמן קריאת שמע ב*${city.name}* ${time} ויש להקדים מספר דקות`
+    let text2copy = `בוקר טוב. סוף זמן קריאת שמע ב*${city.name}* ${roundTime(time)} ויש להקדים מספר דקות`
     p.innerHTML= text;
     
     btn.innerText= 'העתק ללוח'
@@ -69,11 +70,22 @@ function printZmanShma(city, data) {
 export async function getData(city) {
     const res = await fetch("https://www.hebcal.com/zmanim?cfg=json&sec=1&geonameid=" + city.geo)// + "&date=" + new Date().toISOString());
     const val = await res.json();
-    console.log(val.times.sofZmanShma.split("T")[1].split('+')[0]);
+
     printZmanShma(city, val);
+}
+
+function roundTime(time='11:22:33'){
+    const split = time.split(':')
+    split.forEach((s,i,arr) => arr[i] = Number(s))
+    split[1] += split[2] > 30 ? 1 : 0;
+
+    const joined = split[0] +':'+ split[1]
+    return joined
 }
 
 getData(lod)
 getData(jerusalem)
 getData(betShemesh)
 getData(cities.talmon)
+
+console.log("🚀 -> roundTime():", roundTime())
