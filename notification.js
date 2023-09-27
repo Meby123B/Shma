@@ -3,14 +3,19 @@
 
 function createNotification(sofZman = '09:31:23') {
     Notification.requestPermission().then(perm => console.log('perm', perm))
-    setTimeout(() => {
+    ServiceWorkerRegistration.showNotification('סוף זמן קריאת שמע', {
+        body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
+        icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
+        vibrate: 200
+    })
+    // setTimeout(() => {
 
-        new Notification('סוף זמן קריאת שמע', {
-            body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
-            icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
-            vibrate: true
-        })
-    }, 5000);
+    //     new Notification('סוף זמן קריאת שמע', {
+    //         body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
+    //         icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
+    //         // vibrate: 200
+    //     })
+    // }, 5000);
 }
 
 function calculateDeltaTime(str = '') {
