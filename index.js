@@ -1,5 +1,6 @@
 import defaultCities from "./cities.js";
 import loading from "./loading.js";
+import createNotification from "./notification.js";
 import setSearch from "./search.js";
 import DataBase from './storage.js'
 
@@ -24,6 +25,7 @@ function printZmanShma(city, data) {
     console.log('city:', data.location.city);
     const time = data.times.sofZmanShma.split("T")[1].split('+')[0]
     console.log('time', time);
+    callNotification(city)
 
     const div = document.createElement('div')
     div.className = 'city'
@@ -76,10 +78,11 @@ function roundTime(time = '11:22:33') {
     return joined
 }
 
+function callNotification(city){
+    if (city.name =='לוד') {
+        createNotification(city.time)
+    }
+}
 cities.forEach(city => getZmanim(city))
 
-Notification.requestPermission().then(perm => console.log('perm',perm))
-setTimeout(() => {
-    
-    new Notification('hi',{body:'bye',icon:'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80'})
-}, 5000);
+
