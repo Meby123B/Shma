@@ -2,30 +2,38 @@
 
 
 function createNotification(sofZman = '09:31:23') {
-    let swReg;
     Notification.requestPermission().then(perm => console.log('perm', perm))
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./notification.js', {
-            scope: '/'
+    setTimeout(() => {
+    
+        new Notification('סוף זמן קריאת שמע', {
+            body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
+            icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
+            // vibrate: 200
         })
-            .then(function (reg) {
-                swReg = reg;
-                console.log('registration succeed');
-            }).catch(function (error) {
-                console.log('Registration failed with ' + error);
-            });
-        setTimeout(() => {
-            swReg.showNotification('סוף זמן קריאת שמע', {
-                    body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
-                    icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
-                    vibrate: 200
-                })
-                .then(ev => {
-                    console.log(ev); // <= got undefined!
-                });
-        }, 5000);
+    }, 5000);
+    // let swReg;
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker.register('./notification.js', {
+    //         scope: '/'
+    //     })
+    //         .then(function (reg) {
+    //             swReg = reg;
+    //             console.log('registration succeed');
+    //         }).catch(function (error) {
+    //             console.log('Registration failed with ' + error);
+    //         });
+    //     setTimeout(() => {
+    //         swReg.showNotification('סוף זמן קריאת שמע', {
+    //                 body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
+    //                 icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
+    //                 vibrate: 200
+    //             })
+    //             .then(ev => {
+    //                 console.log(ev); // <= got undefined!
+    //             });
+    //     }, 5000);
 
-    }
+    // }
 
     // const s = ServiceWorkerRegistration()
     // s.showNotification('סוף זמן קריאת שמע', {
@@ -33,14 +41,6 @@ function createNotification(sofZman = '09:31:23') {
     //     icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
     //     vibrate: 200
     // })
-    setTimeout(() => {
-
-        new Notification('סוף זמן קריאת שמע', {
-            body: 'בשעה ' + sofZman + ' שזה בעוד ' + Math.floor(calculateDeltaTime(sofZman) / 60) + 'דקות ',
-            icon: 'https://rabenu.com/images/content/items/cache/b74e7f845f25fe403cf91ffa0d8e7c43_XL.jpg',
-            // vibrate: 200
-        })
-    }, 5000);
 }
 
 function calculateDeltaTime(str = '') {
