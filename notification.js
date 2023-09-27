@@ -5,7 +5,7 @@ function createNotification(sofZman = '09:31:23') {
     let swReg;
     Notification.requestPermission().then(perm => console.log('perm', perm))
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/service-worker.js', {
+        navigator.serviceWorker.register('./notification.js', {
             scope: '/'
         })
             .then(function (reg) {
