@@ -77,3 +77,9 @@ function roundTime(time = '11:22:33') {
 }
 
 cities.forEach(city => getZmanim(city))
+
+Notification.requestPermission().then(perm => console.log('perm',perm))
+setTimeout(() => {
+    
+    new Notification('hi',{body:'bye',icon:'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80'})
+}, 5000);
